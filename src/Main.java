@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     static final int SIZE = 3;
-    static final int DOTS_TO_WIN = 3;
+//    static final int DOTS_TO_WIN = 3;
 
     static final char DOT_X = 'X';
     static final char DOT_O = 'O';
@@ -21,7 +21,7 @@ public class Main {
         while (true) {
             humanTurn();
             printMap();
-            if (checkWin(DOT_X)) {
+            if(checkWin(DOT_X)){
                 System.out.println("Ты победил! ");
                 break;
             }
@@ -32,7 +32,7 @@ public class Main {
 
             aiTurn();
             printMap();
-            if (checkWin(DOT_O)) {
+            if(checkWin(DOT_O)){
                 System.out.println("Компьютер победил! ");
                 break;
             }
@@ -88,41 +88,15 @@ public class Main {
         return map[y][x] == DOT_EMPTY;
     }
 
-    public static int aiTurn() {
+    public static void aiTurn() {
         int x, y;
-        for (int i = 0; i < SIZE; i++) {    //Победить
-            for (int j = 0; j < SIZE; j++) {
-                if (map[i][j] == DOT_EMPTY) {
-                    map[i][j] = DOT_O;
-                    if (checkWin(DOT_O)) {
-                        map[i][j] = DOT_O;
-                        return 0;
-                    } else {
-                        map[i][j] = DOT_EMPTY;
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < SIZE; i++) {    //Не проиграть
-            for (int j = 0; j < SIZE; j++) {
-                if (map[i][j] == DOT_EMPTY) {
-                    map[i][j] = DOT_X;
-                    if (checkWin(DOT_X)) {
-                        map[i][j] = DOT_O;
-                        return 0;
-                    } else {
-                        map[i][j] = DOT_EMPTY;
-                    }
-                }
-            }
-        }
-        do {                                //Как попало
+
+        do {
             x = random.nextInt(SIZE);
             y = random.nextInt(SIZE);
         } while (!isCellValid(y, x));
 
         map[y][x] = DOT_O;
-        return 0;
     }
 
     public static boolean isFull() {
@@ -137,43 +111,18 @@ public class Main {
     }
 
     public static boolean checkWin(char c) {
-        int win1 = 0;
-        int win2 = 0;
-        int win3 = 0;
-        int win4 = 0;
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (map[i][j] == c) {
-                    win1 = win2 = win3 = win4 = 0;
-                    for (int k = 0; k < DOTS_TO_WIN; k++) { // диагональ наверх
-                        if (i - k <= SIZE || j + k >= SIZE) break;
-                        else if (map[i - k][j + k] == c) {
-                            win1++;
-                        } else break;
-                    }
-                    for (int k = 0; k < DOTS_TO_WIN; k++) { // диагональ вниз
-                        if (i + k >= SIZE || j + k >= SIZE) break;
-                        else if (map[i + k][j + k] == c) {
-                            win2++;
-                        } else break;
-                    }
+        if (map[0][0] == c && map[0][1] == c && map[0][2] == c) {return true; }
+        if (map[1][0] == c && map[1][1] == c && map[1][2] == c) {return true; }
+        if (map[2][0] == c && map[2][1] == c && map[2][2] == c) {return true; }
 
-                    for (int k = 0; k < DOTS_TO_WIN; k++) { // горизонталь
-                        if (j + k >= SIZE) break;
-                        else if (map[i][j + k] == c) {
-                            win3++;
-                        } else break;
-                    }
-                    for (int k = 0; k < DOTS_TO_WIN; k++) { // вертикаль
-                        if (i + k >= SIZE) break;
-                        else if (map[i + k][j] == c) {
-                            win4++;
-                        } else break;
-                    }
-                    if (win1 == 3 || win2 == 3 || win3 == 3 || win4 == 3) return true;
-                }
-            }
-        }
+        if (map[0][0] == c && map[1][0] == c && map[2][0] == c) {return true; }
+        if (map[0][1] == c && map[1][1] == c && map[2][1] == c) {return true; }
+        if (map[0][2] == c && map[1][2] == c && map[2][2] == c) {return true; }
+
+        if (map[0][0] == c && map[1][1] == c && map[2][2] == c) {return true; }
+        if (map[0][2] == c && map[1][1] == c && map[2][0] == c) {return true; }
+
         return false;
     }
+
 }

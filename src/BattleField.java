@@ -115,6 +115,7 @@ public class BattleField extends JPanel {
         ((Graphics2D) g).setStroke(new BasicStroke(strokeSize));
         g.setColor(Color.RED);
         g.drawLine(cellWidth * x, cellHeight * y, cellWidth * (x + 1), cellHeight * (y + 1));
+        g.drawLine(cellWidth * x, cellHeight * (y+1), cellWidth * (x + 1), cellHeight * y);
     }
 
     private void drawO(Graphics g, int x, int y) {
